@@ -9,10 +9,18 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    boardwidget.cpp \
+    cellbutton.cpp \
     main.cpp \
+    mainWindow.cpp \
+    statuspanel.cpp \
     welcomewindow.cpp
 
 HEADERS += \
+    boardwidget.h \
+    cellbutton.h \
+    mainWindow.h \
+    statuspanel.h \
     welcomewindow.h
 
 # Default rules for deployment.
