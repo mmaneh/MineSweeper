@@ -62,24 +62,18 @@ void MainWindow::setupUi()
 
     vbox->addWidget(statusPanel);
 
+    boardWidget = new BoardWidget(rows, cols, this);
+    boardWidget->setEnabled(true);
+    vbox->addWidget(boardWidget, 1);
 
-    // boardWidget = new BoardWidget(rows, cols, mines, this);
-    // vbox->addWidget(boardWidget, 1);
-    // connect(boardWidget, &BoardWidget::cellLeftClicked,  this, [](int r, int c){
-    //     qDebug() << "Left clicked:" << r << c;
-    // });
-    // connect(boardWidget, &BoardWidget::cellRightClicked, this, [](int r, int c){
-    //     qDebug() << "Right clicked:" << r << c;
-    // });
-
-    // static bool firstClick = false;
-    // connect(boardWidget, &BoardWidget::cellLeftClicked, this, [this]() {
-    //     if (!firstClick) {
-    //         firstClick = true;
-    //         statusPanel->startTimer();
-    //     }
-    // });
-
+    connect(boardWidget, &BoardWidget::onLeftClicked, this, &MainWindow::onLeftCellClicked);
+    connect(boardWidget, &BoardWidget::onRightClicked, this, &MainWindow::onRightCellClicked);
+}
+void MainWindow::onLeftCellClicked(int row, int col) {
+    qDebug() << "Left cell is clicked" << row << col;
+}
+void MainWindow::onRightCellClicked(int row, int col) {
+    qDebug() << "Right cell is clicked" << row << col;
 }
 
 void MainWindow::setupGame(int rows, int cols, int mines) {
@@ -90,7 +84,6 @@ void MainWindow::setupGame(int rows, int cols, int mines) {
 void MainWindow::onRestartClicked()
 {
     qDebug() << "Restart clicked";
-  //  if (boardWidget) boardWidget->newGame();//kdzes if hani
     statusPanel->resetTimer();
     statusPanel->stopTimer();
     statusPanel->setFaceState(GameState::Playing);
