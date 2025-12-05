@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QMessageBox>
+#include <QFont>
 
 class WelcomeWindow : public QMainWindow
 {
