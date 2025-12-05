@@ -33,8 +33,6 @@ private slots:
 private:
     QLabel *mineCounter;
     QLabel *timer;
-    QLabel *mineIcon;
-    QLabel *timeIcon;
     QLabel *difficultyLabel;
 
     QPushButton *restartBtn;
