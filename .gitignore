@@ -1,0 +1,50 @@
+# Qt Creator project files
+*.pro.user
+*.pro.user.*
+*.user
+*.user.*
+*.qbs.user
+*.qmlproject.user
+*.autosave
+.qtcreator/
+
+# Build directories
+build/
+bin/
+*.o
+*.obj
+*.exe
+*.app
+*.so
+*.dll
+
+# Mac system files
+.DS_Store
+# Qt Creator project files
+*.pro.user
+*.pro.user.*
+*.user
+*.user.*
+*.qbs.user
+*.qmlproject.user
+*.autosave
+.qtcreator/
+
+# Build directories
+build/
+bin/
+*.o
+*.obj
+*.exe
+*.app
+*.so
+*.dll
+
+# Mac OS system files
+.DS_Store
+
+# Qt cache files
+*.moc
+*.rcc
+*.qrc
+
