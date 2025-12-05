@@ -3,12 +3,18 @@
 
 class StatusPanel;
 
-MainWindow::MainWindow(int r, int c, int m, QWidget *parent)
-    : QMainWindow(parent), rows(r), cols(c), mines(m)
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent), rows(9), cols(9), mines(10)
 {
     setWindowTitle("Minesweeper");
     setMinimumSize(600, 600);
 
+    setupMenu();
+    setupUi();
+}
+MainWindow::MainWindow(int r, int c, int m, QWidget *parent)
+    : QMainWindow(parent), rows(r), cols(c), mines(m)
+{
     setupMenu();
     setupUi();
 }
@@ -36,12 +42,15 @@ void MainWindow::setupMenu()
 
 void MainWindow::setupUi()
 {
+    setWindowTitle("Minesweeper");
+    setMinimumSize(600, 600);
+
     QWidget *central = new QWidget(this);
     setCentralWidget(central);
 
     auto *vbox = new QVBoxLayout(central);
-   // vbox->setContentsMargins(5,5,5,5);
-   // vbox->setSpacing(10);
+    vbox->setContentsMargins(5,5,5,5);
+    vbox->setSpacing(10);
 
     statusPanel = new StatusPanel();
     statusPanel->setMineCount(mines);
@@ -54,30 +63,34 @@ void MainWindow::setupUi()
     vbox->addWidget(statusPanel);
 
 
-    boardWidget = new BoardWidget(rows, cols, mines, this);
-    vbox->addWidget(boardWidget, 1);
-    connect(boardWidget, &BoardWidget::cellLeftClicked,  this, [](int r, int c){
-        qDebug() << "Left clicked:" << r << c;
-    });
-    connect(boardWidget, &BoardWidget::cellRightClicked, this, [](int r, int c){
-        qDebug() << "Right clicked:" << r << c;
-    });
+    // boardWidget = new BoardWidget(rows, cols, mines, this);
+    // vbox->addWidget(boardWidget, 1);
+    // connect(boardWidget, &BoardWidget::cellLeftClicked,  this, [](int r, int c){
+    //     qDebug() << "Left clicked:" << r << c;
+    // });
+    // connect(boardWidget, &BoardWidget::cellRightClicked, this, [](int r, int c){
+    //     qDebug() << "Right clicked:" << r << c;
+    // });
 
-    static bool firstClick = false;
-    connect(boardWidget, &BoardWidget::cellLeftClicked, this, [this]() {
-        if (!firstClick) {
-            firstClick = true;
-            statusPanel->startTimer();
-        }
-    });
+    // static bool firstClick = false;
+    // connect(boardWidget, &BoardWidget::cellLeftClicked, this, [this]() {
+    //     if (!firstClick) {
+    //         firstClick = true;
+    //         statusPanel->startTimer();
+    //     }
+    // });
 
 }
 
-
+void MainWindow::setupGame(int rows, int cols, int mines) {
+    this->rows = rows;
+    this->cols = cols;
+    this->mines = mines;
+}
 void MainWindow::onRestartClicked()
 {
     qDebug() << "Restart clicked";
-    boardWidget->newGame();
+  //  if (boardWidget) boardWidget->newGame();//kdzes if hani
     statusPanel->resetTimer();
     statusPanel->stopTimer();
     statusPanel->setFaceState(GameState::Playing);
@@ -87,8 +100,8 @@ void MainWindow::onRestartClicked()
 
 void MainWindow::onBackClicked()
 {
-    qDebug() << "Back clicked";
-    close();
+    emit backRequested();
+
 }
 
 void MainWindow::onNewGame()

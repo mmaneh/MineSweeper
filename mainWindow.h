@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>
-#include "boardwidget.h"
+//#include "boardwidget.h"
 #include <statuspanel.h>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -15,8 +15,9 @@ class QWidget;
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
+    MainWindow(QWidget *parent = nullptr);
     MainWindow(int rows, int cols, int mines, QWidget *parent = nullptr);
-
+    void setupGame(int rows, int cols, int mines);
 private slots:
     void onRestartClicked();
     void onBackClicked();
@@ -26,6 +27,9 @@ private slots:
     void setupMenu();
     void setupUi();
 
+signals:
+    void backRequested();
+
 private:
     int rows;
     int cols;
@@ -33,7 +37,7 @@ private:
 
     StatusPanel *statusPanel;
     QWidget *gameBoardPlaceholder;
-    BoardWidget *boardWidget;
+    //BoardWidget *boardWidget;
 };
 
 

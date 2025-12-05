@@ -52,24 +52,16 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../../boardwidget.cpp \
-		../../cellbutton.cpp \
-		../../main.cpp \
+SOURCES       = ../../main.cpp \
 		../../mainWindow.cpp \
 		../../statuspanel.cpp \
-		../../welcomewindow.cpp moc_boardwidget.cpp \
-		moc_cellbutton.cpp \
-		moc_mainWindow.cpp \
+		../../welcomewindow.cpp moc_mainWindow.cpp \
 		moc_statuspanel.cpp \
 		moc_welcomewindow.cpp
-OBJECTS       = boardwidget.o \
-		cellbutton.o \
-		main.o \
+OBJECTS       = main.o \
 		mainWindow.o \
 		statuspanel.o \
 		welcomewindow.o \
-		moc_boardwidget.o \
-		moc_cellbutton.o \
 		moc_mainWindow.o \
 		moc_statuspanel.o \
 		moc_welcomewindow.o
@@ -436,13 +428,9 @@ DIST          = /Qt/6.10.1/macos/mkspecs/features/spec_pre.prf \
 		/Qt/6.10.1/macos/mkspecs/features/exceptions.prf \
 		/Qt/6.10.1/macos/mkspecs/features/yacc.prf \
 		/Qt/6.10.1/macos/mkspecs/features/lex.prf \
-		../../../../MineSweeper.pro ../../boardwidget.h \
-		../../cellbutton.h \
-		../../mainWindow.h \
+		../../../../MineSweeper.pro ../../mainWindow.h \
 		../../statuspanel.h \
-		../../welcomewindow.h ../../boardwidget.cpp \
-		../../cellbutton.cpp \
-		../../main.cpp \
+		../../welcomewindow.h ../../main.cpp \
 		../../mainWindow.cpp \
 		../../statuspanel.cpp \
 		../../welcomewindow.cpp
@@ -1229,8 +1217,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../../boardwidget.h ../../cellbutton.h ../../mainWindow.h ../../statuspanel.h ../../welcomewindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../boardwidget.cpp ../../cellbutton.cpp ../../main.cpp ../../mainWindow.cpp ../../statuspanel.cpp ../../welcomewindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../mainWindow.h ../../statuspanel.h ../../welcomewindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../main.cpp ../../mainWindow.cpp ../../statuspanel.cpp ../../welcomewindow.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -1259,33 +1247,21 @@ benchmark: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_boardwidget.cpp moc_cellbutton.cpp moc_mainWindow.cpp moc_statuspanel.cpp moc_welcomewindow.cpp
+compiler_moc_header_make_all: moc_mainWindow.cpp moc_statuspanel.cpp moc_welcomewindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_boardwidget.cpp moc_cellbutton.cpp moc_mainWindow.cpp moc_statuspanel.cpp moc_welcomewindow.cpp
-moc_boardwidget.cpp: ../../boardwidget.h \
-		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QWidget \
-		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qwidget.h \
-		../../cellbutton.h \
-		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QPushButton \
-		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
-		../../../../Qt/6.10.1/macos/libexec/moc
-	/Users/manemkhitaryan/Qt/6.10.1/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=201402L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=17 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/manemkhitaryan/Qt/6.10.1/macos/mkspecs/macx-clang -I/Users/manemkhitaryan/Desktop/MineSweeper -I/Users/manemkhitaryan/Qt/6.10.1/macos/lib/QtWidgets.framework/Headers -I/Users/manemkhitaryan/Qt/6.10.1/macos/lib/QtGui.framework/Headers -I/Users/manemkhitaryan/Qt/6.10.1/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/manemkhitaryan/Qt/6.10.1/macos/lib ../../boardwidget.h -o moc_boardwidget.cpp
-
-moc_cellbutton.cpp: ../../cellbutton.h \
-		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QPushButton \
-		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
-		../../../../Qt/6.10.1/macos/libexec/moc
-	/Users/manemkhitaryan/Qt/6.10.1/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=201402L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=17 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/manemkhitaryan/Qt/6.10.1/macos/mkspecs/macx-clang -I/Users/manemkhitaryan/Desktop/MineSweeper -I/Users/manemkhitaryan/Qt/6.10.1/macos/lib/QtWidgets.framework/Headers -I/Users/manemkhitaryan/Qt/6.10.1/macos/lib/QtGui.framework/Headers -I/Users/manemkhitaryan/Qt/6.10.1/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/manemkhitaryan/Qt/6.10.1/macos/lib ../../cellbutton.h -o moc_cellbutton.cpp
-
+	-$(DEL_FILE) moc_mainWindow.cpp moc_statuspanel.cpp moc_welcomewindow.cpp
 moc_mainWindow.cpp: ../../mainWindow.h \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QMainWindow \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
-		../../boardwidget.h \
+		../../statuspanel.h \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QWidget \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qwidget.h \
-		../../cellbutton.h \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QLabel \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qlabel.h \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QPushButton \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		../../../../Qt/6.10.1/macos/lib/QtCore.framework/Headers/QTimer \
+		../../../../Qt/6.10.1/macos/lib/QtCore.framework/Headers/qtimer.h \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QVBoxLayout \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qboxlayout.h \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QMenuBar \
@@ -1341,38 +1317,43 @@ compiler_clean: compiler_moc_header_clean
 
 ####### Compile
 
-boardwidget.o: ../../boardwidget.cpp ../../boardwidget.h \
+main.o: ../../main.cpp ../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QApplication \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qapplication.h \
+		../../welcomewindow.h \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QMainWindow \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QPushButton \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QLabel \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qlabel.h \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QVBoxLayout \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qboxlayout.h \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QMessageBox \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qmessagebox.h \
+		../../mainwindow.h \
+		../../statuspanel.h \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QWidget \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qwidget.h \
-		../../cellbutton.h \
-		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QPushButton \
-		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
-		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QGridLayout \
-		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qgridlayout.h \
+		../../../../Qt/6.10.1/macos/lib/QtCore.framework/Headers/QTimer \
+		../../../../Qt/6.10.1/macos/lib/QtCore.framework/Headers/qtimer.h \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QMenuBar \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qmenubar.h \
 		../../../../Qt/6.10.1/macos/lib/QtCore.framework/Headers/QDebug \
 		../../../../Qt/6.10.1/macos/lib/QtCore.framework/Headers/qdebug.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o boardwidget.o ../../boardwidget.cpp
-
-cellbutton.o: ../../cellbutton.cpp ../../cellbutton.h \
-		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QPushButton \
-		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
-		../../../../Qt/6.10.1/macos/lib/QtGui.framework/Headers/QMouseEvent \
-		../../../../Qt/6.10.1/macos/lib/QtGui.framework/Headers/qevent.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cellbutton.o ../../cellbutton.cpp
-
-main.o: ../../main.cpp ../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QApplication \
-		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp
 
 mainWindow.o: ../../mainWindow.cpp ../../mainWindow.h \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QMainWindow \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
-		../../boardwidget.h \
+		../../statuspanel.h \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QWidget \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qwidget.h \
-		../../cellbutton.h \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QLabel \
+		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qlabel.h \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QPushButton \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		../../../../Qt/6.10.1/macos/lib/QtCore.framework/Headers/QTimer \
+		../../../../Qt/6.10.1/macos/lib/QtCore.framework/Headers/qtimer.h \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QVBoxLayout \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/qboxlayout.h \
 		../../../../Qt/6.10.1/macos/lib/QtWidgets.framework/Headers/QMenuBar \
@@ -1412,12 +1393,6 @@ welcomewindow.o: ../../welcomewindow.cpp ../../welcomewindow.h \
 		../../../../Qt/6.10.1/macos/lib/QtCore.framework/Headers/QDebug \
 		../../../../Qt/6.10.1/macos/lib/QtCore.framework/Headers/qdebug.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o welcomewindow.o ../../welcomewindow.cpp
-
-moc_boardwidget.o: moc_boardwidget.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_boardwidget.o moc_boardwidget.cpp
-
-moc_cellbutton.o: moc_cellbutton.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_cellbutton.o moc_cellbutton.cpp
 
 moc_mainWindow.o: moc_mainWindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainWindow.o moc_mainWindow.cpp

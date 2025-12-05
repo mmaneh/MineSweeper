@@ -9,13 +9,19 @@ int main(int argc, char *argv[])
 
     WelcomeWindow welcome;
     welcome.show();
+    MainWindow* game = nullptr;
 
-    // When user picks difficulty → open MainWindow
     QObject::connect(&welcome, &WelcomeWindow::difficultySelected, [&](int rows, int cols, int mines){
         welcome.hide();
-        MainWindow *game = new MainWindow(rows, cols, mines);
+        game = new MainWindow(rows, cols, mines);
         game->show();
+
+        QObject::connect(game, &MainWindow::backRequested, [&, game](){
+            game->hide();
+            welcome.show();
+        });
     });
+
 
     return a.exec();
 }

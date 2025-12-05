@@ -40,8 +40,9 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "MainWindow",
-        "onRestartClicked",
+        "backRequested",
         "",
+        "onRestartClicked",
         "onBackClicked",
         "onNewGame",
         "onChangeDifficulty",
@@ -51,20 +52,22 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
     };
 
     QtMocHelpers::UintData qt_methods {
+        // Signal 'backRequested'
+        QtMocHelpers::SignalData<void()>(1, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'onRestartClicked'
-        QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onBackClicked'
         QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onNewGame'
+        // Slot 'onBackClicked'
         QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onChangeDifficulty'
+        // Slot 'onNewGame'
         QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onExitGame'
+        // Slot 'onChangeDifficulty'
         QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'setupMenu'
+        // Slot 'onExitGame'
         QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'setupUi'
+        // Slot 'setupMenu'
         QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'setupUi'
+        QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -88,17 +91,21 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     auto *_t = static_cast<MainWindow *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->onRestartClicked(); break;
-        case 1: _t->onBackClicked(); break;
-        case 2: _t->onNewGame(); break;
-        case 3: _t->onChangeDifficulty(); break;
-        case 4: _t->onExitGame(); break;
-        case 5: _t->setupMenu(); break;
-        case 6: _t->setupUi(); break;
+        case 0: _t->backRequested(); break;
+        case 1: _t->onRestartClicked(); break;
+        case 2: _t->onBackClicked(); break;
+        case 3: _t->onNewGame(); break;
+        case 4: _t->onChangeDifficulty(); break;
+        case 5: _t->onExitGame(); break;
+        case 6: _t->setupMenu(); break;
+        case 7: _t->setupUi(); break;
         default: ;
         }
     }
-    (void)_a;
+    if (_c == QMetaObject::IndexOfMethod) {
+        if (QtMocHelpers::indexOfMethod<void (MainWindow::*)()>(_a, &MainWindow::backRequested, 0))
+            return;
+    }
 }
 
 const QMetaObject *MainWindow::metaObject() const
@@ -120,15 +127,21 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 8;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 8)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 7;
+        _id -= 8;
     }
     return _id;
+}
+
+// SIGNAL 0
+void MainWindow::backRequested()
+{
+    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
 }
 QT_WARNING_POP
