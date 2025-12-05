@@ -8,38 +8,31 @@ StatusPanel::StatusPanel(QWidget *parent)
     mineCounter = new QLabel("000", this);
     timer       = new QLabel("000", this);
 
-    mineCounter->setStyleSheet("color: #FF3366; font: bold 38px 'Segoe UI', sans-serif; background: transparent;");
-    timer->setStyleSheet(     "color: #FFB800; font: bold 38px 'Segoe UI', sans-serif; background: transparent;");
+    mineCounter->setStyleSheet("color: #FFC107; font: bold 38px 'Segoe UI', sans-serif; background: transparent;");
+    timer->setStyleSheet(      "color: #FFC107; font: bold 38px 'Segoe UI', sans-serif; background: transparent;");
 
     mineCounter->setFixedWidth(110);
     timer->setFixedWidth(110);
     mineCounter->setAlignment(Qt::AlignCenter);
     timer->setAlignment(Qt::AlignCenter);
 
-    mineIcon = new QLabel(this);
-    timeIcon = new QLabel(this);
-    mineIcon->setPixmap(QPixmap(":/assets/mine.png").scaled(40,40,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-    timeIcon->setPixmap(QPixmap(":/assets/clock.png").scaled(40,40,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-
     restartBtn = new QPushButton("🙂", this);
     restartBtn->setFixedSize(56, 56);
     restartBtn->setStyleSheet(
         "QPushButton {"
-        "   background: #2d2d2d; border: 2px solid #555; border-radius: 28px; font-size: 36px;"
+        "  background: #FFC107; border: 2px solid #FFF8E1; border-radius: 28px; font-size: 36px;" // Gold Background
         "}"
-        "QPushButton:hover { background: #444; border-color: #888; }"
-        "QPushButton:pressed { background: #111; }"
+        "QPushButton:hover { background: #FFD740; }"
+        "QPushButton:pressed { background: #FFAB00; }"
         );
 
     difficultyLabel = new QLabel("Difficulty: Beginner", this);
-    difficultyLabel->setStyleSheet("color: #cccccc; font: 13px 'Segoe UI';");
-
+    difficultyLabel->setStyleSheet("color: #FFF8E1; font: 13px 'Segoe UI'; background: transparent;");
     backBtn = new QPushButton("Back", this);
     backBtn->setStyleSheet(
-        "QPushButton { background: #333; border: 1px solid #555; border-radius: 8px; padding: 6px 16px; color: white; }"
-        "QPushButton:hover { background: #555; }"
+        "QPushButton { background: #5C4033; border: 1px solid #FFF8E1; border-radius: 8px; padding: 6px 16px; color: #FFF8E1; font-weight: bold; }"
+        "QPushButton:hover { background: #3E2723; }" // Dark Chocolate Hover
         );
-
     qtimer = new QTimer(this);
     qtimer->setInterval(1000);
     connect(qtimer, &QTimer::timeout, this, &StatusPanel::updateTime);
@@ -56,18 +49,17 @@ StatusPanel::StatusPanel(QWidget *parent)
     layout87->addWidget(difficultyLabel);
     layout87->addStretch();
 
-    layout87->addWidget(mineIcon);
     layout87->addWidget(mineCounter);
     layout87->addStretch();
 
     layout87->addWidget(restartBtn);
 
     layout87->addStretch();
-    layout87->addWidget(timeIcon);
     layout87->addWidget(timer);
     layout87->addStretch();
 
-    setStyleSheet("StatusPanel { background: #1e1e1e; border-bottom: 2px solid #333; }");
+    setStyleSheet("StatusPanel { background: #3E2723; border-bottom: 2px solid #5C4033; }");
+
 }
 
 void StatusPanel::setMineCount(int count)
@@ -75,7 +67,9 @@ void StatusPanel::setMineCount(int count)
     int display = count;
     if (count < 0) {
         display = -count;
-        mineCounter->setStyleSheet("color: #FF3366; font: bold 42px 'Segoe UI'; background: transparent;");
+       mineCounter->setStyleSheet("color: #E74C3C; font: bold 42px 'Segoe UI'; background: transparent;");
+    } else {
+        mineCounter->setStyleSheet("color: #FFC107; font: bold 38px 'Segoe UI', sans-serif; background: transparent;");
     }
     mineCounter->setText(QString("%1").arg(display, 3, 10, QChar('0')));
 }

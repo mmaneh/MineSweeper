@@ -1,0 +1,67 @@
+/* ===========================
+   Main Window
+   =========================== */
+QWidget {
+    background-color: #1e1e1e; /* dark background for window */
+}
+
+/* ===========================
+   StatusPanel Buttons
+   =========================== */
+QPushButton {
+    background-color: #333333;
+    color: white;
+    border: 1px solid #555555;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font: bold 14px;
+}
+
+QPushButton:hover {
+    background-color: #555555;
+}
+
+QPushButton:pressed {
+    background-color: #111111;
+}
+
+/* ===========================
+   Restart / Face Button
+   =========================== */
+QPushButton#restartBtn {
+    background-color: #2d2d2d;
+    border: 2px solid #555555;
+    border-radius: 28px;
+    font-size: 36px;
+}
+
+QPushButton#restartBtn:hover {
+    background-color: #444444;
+}
+
+/* ===========================
+   CellButton (the mine grid)
+   =========================== */
+CellButton {
+    background-color: #C0C0C0; /* silver default */
+    border: 1px solid #999999;
+}
+
+CellButton:hover {
+    background-color: #A9A9A9; /* darker on hover */
+}
+
+/* ===========================
+   Labels (timer, mines, difficulty)
+   =========================== */
+QLabel {
+    color: white;
+    font: bold 16px;
+}
+
+/* ===========================
+   Optional: Highlight clicked cells
+   =========================== */
+CellButton:pressed {
+    background-color: #808080;
+}

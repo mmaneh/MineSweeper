@@ -2,11 +2,10 @@
 #include <QApplication>
 #include "welcomewindow.h"
 #include "mainwindow.h"
-
+#include <QFile>
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
     WelcomeWindow welcome;
     welcome.show();
     MainWindow* game = nullptr;

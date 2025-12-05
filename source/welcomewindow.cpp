@@ -21,35 +21,41 @@ void WelcomeWindow::setupUi() {
     setWindowTitle("Minesweeper — Welcome");
     setFixedSize(400, 450);
 
-
-   centralWidget()->setStyleSheet("background-color: #d0d0d0;");
+    centralWidget()->setStyleSheet("background-color: #3E2723;");
 
 
     QLabel *wlcMessage = new QLabel("Welcome To Minesweeper");
     wlcMessage->setAlignment(Qt::AlignCenter);
-    wlcMessage->setStyleSheet("font-size: 24px; font-weight: bold; color:white;");
+    wlcMessage->setStyleSheet("color: #FFF8E1;"
+                              "font: bold 28px 'Segoe UI';");
 
     QLabel *diff = new QLabel("Choose The Difficulty");
     diff->setAlignment(Qt::AlignCenter);
-    diff->setStyleSheet("font-size: 20px; font-weight: bold; color:white;");
+    diff->setStyleSheet("color: #FFF8E1;"
+                        "font: 22px 'Segoe UI';");
 
     beginnerbtn = new QPushButton("Beginner\n9x9, 10 Mines");
     intermediatebtn = new QPushButton("Intermediate\n16x16, 40 Mines");
     expertbtn = new QPushButton("Expert\n16x30, 99 Mines");
-
+    QFont btnFont("Segoe UI", 12);  // font family + size
+    beginnerbtn->setFont(btnFont);
+    intermediatebtn->setFont(btnFont);
+    expertbtn->setFont(btnFont);
     QString diffBtnStyle =
         "QPushButton {"
-        "background-color: #6c6c6c;"
-        "color: white;"
-        "font-size: 16px;"
-        "font-weight: bold;"
-        "border-radius: 12px;"
-        "min-height: 60px;"
+        "  background-color: #5C4033;" // Warm Taupe
+        "  color: #FFF8E1;" // Bright Gold Accent Text
+        "  border: 1px solid #E0C3A0;" // Almond border
+        "  border-radius: 12px;"
+        "  font: bold 20px 'Segoe UI';"
+        "  padding: 10px 20px;"
         "}"
         "QPushButton:hover {"
-        "background-color: #505050;"
+        "  background-color: #7B5C49;" // Slightly Lighter Hover
+        "}"
+        "QPushButton:pressed {"
+        "  background-color: #3E2723;" // Dark Chocolate Pressed State
         "}";
-
     beginnerbtn->setStyleSheet(diffBtnStyle);
     intermediatebtn->setStyleSheet(diffBtnStyle);
     expertbtn->setStyleSheet(diffBtnStyle);
@@ -58,35 +64,20 @@ void WelcomeWindow::setupUi() {
     howToPlay = new QPushButton("How To Play");
     about = new QPushButton("About");
 
-    QString smallBtnStyle =
+    QString secondaryBtnStyle =
         "QPushButton {"
-        "color:white; font-weight:bold; border-radius:18px; padding:8px;"
-        "}"
-        "QPushButton:hover { opacity:0.8; }";
-
-    howToPlay->setStyleSheet(
-        "QPushButton {"
-        "background-color: #6c7a89;"
-        "color:white;"
+        "background-color: #3E2723;" // Dark Chocolate
+        "color: #FFF8E1;" // Ivory Cream Text
         "font-weight:bold;"
         "border-radius:18px;"
         "padding:8px;"
+        "border: 1px solid #5C4033;" // Subtle Taupe Border
         "}"
         "QPushButton:hover {"
-        "background-color:#5a6876;"
-        "}");
-
-    about->setStyleSheet(
-        "QPushButton {"
-        "background-color: #8e7c6f;"
-        "color:white;"
-        "font-weight:bold;"
-        "border-radius:18px;"
-        "padding:8px;"
-        "}"
-        "QPushButton:hover {"
-        "background-color:#7a6a5f;"
-        "}");
+        "background-color:#5C4033;" // Warm Taupe Hover
+        "}";
+    howToPlay->setStyleSheet(secondaryBtnStyle);
+    about->setStyleSheet(secondaryBtnStyle);
 
 
 

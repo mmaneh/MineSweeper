@@ -1,14 +1,8 @@
 #include "mainWindow.h"
 
-
-class StatusPanel;
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), rows(9), cols(9), mines(10)
 {
-    setWindowTitle("Minesweeper");
-    setMinimumSize(600, 600);
-
     setupMenu();
     setupUi();
 }
@@ -46,6 +40,7 @@ void MainWindow::setupUi()
     setMinimumSize(600, 600);
 
     QWidget *central = new QWidget(this);
+    central->setStyleSheet("background-color: #3E2723;");
     setCentralWidget(central);
 
     auto *vbox = new QVBoxLayout(central);
@@ -70,9 +65,18 @@ void MainWindow::setupUi()
     connect(boardWidget, &BoardWidget::onRightClicked, this, &MainWindow::onRightCellClicked);
 }
 void MainWindow::onLeftCellClicked(int row, int col) {
+    if (!firstClick) {
+        firstClick = true;
+        statusPanel->startTimer();
+    }
     qDebug() << "Left cell is clicked" << row << col;
 }
 void MainWindow::onRightCellClicked(int row, int col) {
+    if (!firstClick) {
+        firstClick = true;
+        statusPanel->startTimer();
+    }
+
     qDebug() << "Right cell is clicked" << row << col;
 }
 

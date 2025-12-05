@@ -10,7 +10,7 @@ BoardWidget::BoardWidget(int rows, int cols, QWidget *parent) :
         for (int j = 0; j < m_cols; ++j) {
             btns[i][j] = new CellButton(i, j, this);
             btns[i][j]->setFixedSize(30, 30);
-           btns[i][j]->setStyleSheet("background-color: #C0C0C0;");
+            btns[i][j]->setStyleSheet("background-color: #E0C3A0;");
             layout->addWidget(btns[i][j],i,j);
 
             connect(btns[i][j], &CellButton::leftClicked, this, &BoardWidget::handleLeftClick);
