@@ -8,6 +8,7 @@
 #include <QMenuBar>
 #include <QDebug>
 #include <QMessageBox>
+#include <QInputDialog>
 
 class StatusPanel;
 class QWidget;
