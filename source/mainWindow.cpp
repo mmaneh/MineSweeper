@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupMenu();
     setupUi();
 }
+
 MainWindow::MainWindow(int r, int c, int m, QWidget *parent)
     : QMainWindow(parent), rows(r), cols(c), mines(m)
 {
@@ -19,7 +20,7 @@ void MainWindow::setupMenu()
     gameMenu->addAction("New Game", this, &MainWindow::onNewGame);
     gameMenu->addAction("Change Difficulty", this, &MainWindow::onChangeDifficulty);
     gameMenu->addSeparator();
-    gameMenu->addAction("Exit", this, &MainWindow::onExitGame);
+    gameMenu->addAction("Close", this, &MainWindow::onExitGame);
 
     QMenu *helpMenu = menuBar()->addMenu("Help");
     helpMenu->addAction("How To Play", [](){
@@ -57,13 +58,16 @@ void MainWindow::setupUi()
 
     vbox->addWidget(statusPanel);
 
+
     boardWidget = new BoardWidget(rows, cols, this);
+   // boardWidget->generateMockBoard();
     boardWidget->setEnabled(true);
     vbox->addWidget(boardWidget, 1);
 
     connect(boardWidget, &BoardWidget::onLeftClicked, this, &MainWindow::onLeftCellClicked);
     connect(boardWidget, &BoardWidget::onRightClicked, this, &MainWindow::onRightCellClicked);
 }
+
 void MainWindow::onLeftCellClicked(int row, int col) {
     if (!firstClick) {
         firstClick = true;
@@ -92,6 +96,7 @@ void MainWindow::onRestartClicked()
     statusPanel->stopTimer();
     statusPanel->setFaceState(GameState::Playing);
     statusPanel->setMineCount(mines);
+    firstClick = false;
 
 }
 
@@ -103,12 +108,50 @@ void MainWindow::onBackClicked()
 
 void MainWindow::onNewGame()
 {
+    onRestartClicked();
+    firstClick = false;
+
     qDebug() << "New Game triggered";
 }
 
 void MainWindow::onChangeDifficulty()
 {
-    qDebug() << "Change Difficulty triggered";
+    QStringList difficulties = {"Beginner", "Intermediate", "Expert"};
+    bool ok;
+    QString choice = QInputDialog::getItem(this, "Select Difficulty",
+                                           "Difficulty:", difficulties, 0, false, &ok);
+    if (ok && !choice.isEmpty()) {
+        if (choice == "Beginner") {
+            setupGame(9, 9, 10);
+            statusPanel->setDifficultyLabel("Beginner");
+        } else if (choice == "Intermediate") {
+            setupGame(16, 16, 40);
+            statusPanel->setDifficultyLabel("Intermediate");
+        } else if (choice == "Expert") {
+            setupGame(16, 30, 99);
+            statusPanel->setDifficultyLabel("Expert");
+        }
+
+        auto *vbox = qobject_cast<QVBoxLayout*>(centralWidget()->layout());
+
+        if (boardWidget) {
+            vbox->removeWidget(boardWidget);
+            boardWidget->deleteLater();
+            boardWidget = nullptr;
+        }
+
+        boardWidget = new BoardWidget(rows, cols, this);
+        boardWidget->setEnabled(true);
+        vbox->addWidget(boardWidget, 1);
+
+        connect(boardWidget, &BoardWidget::onLeftClicked, this, &MainWindow::onLeftCellClicked);
+        connect(boardWidget, &BoardWidget::onRightClicked, this, &MainWindow::onRightCellClicked);
+
+        onRestartClicked();
+        firstClick = false;
+
+        qDebug() << "Change Difficulty triggered";
+    }
 }
 
 void MainWindow::onExitGame()

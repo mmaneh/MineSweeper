@@ -1,26 +1,12 @@
-// main.cpp
 #include <QApplication>
-#include "welcomewindow.h"
-#include "mainwindow.h"
-#include <QFile>
+#include "AppManager.h"
+
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    WelcomeWindow welcome;
-    welcome.show();
-    MainWindow* game = nullptr;
+    QApplication app(argc, argv);
 
-    QObject::connect(&welcome, &WelcomeWindow::difficultySelected, [&](int rows, int cols, int mines){
-        welcome.hide();
-        game = new MainWindow(rows, cols, mines);
-        game->show();
+    AppManager manager;
+    manager.startApp();
 
-        QObject::connect(game, &MainWindow::backRequested, [&, game](){
-            game->hide();
-            welcome.show();
-        });
-    });
-
-
-    return a.exec();
+    return app.exec();
 }

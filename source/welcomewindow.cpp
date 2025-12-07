@@ -20,11 +20,10 @@ WelcomeWindow::WelcomeWindow(QWidget *parent)
 void WelcomeWindow::setupUi() {
     setWindowTitle("Minesweeper — Welcome");
     setFixedSize(400, 450);
-
     centralWidget()->setStyleSheet("background-color: #3E2723;");
 
 
-    QLabel *wlcMessage = new QLabel("Welcome To Minesweeper");
+    QLabel *wlcMessage = new QLabel("Minesweeper");
     wlcMessage->setAlignment(Qt::AlignCenter);
     wlcMessage->setStyleSheet("color: #FFF8E1;"
                               "font: bold 28px 'Segoe UI';");
