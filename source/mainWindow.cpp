@@ -60,7 +60,7 @@ void MainWindow::setupUi()
 
 
     boardWidget = new BoardWidget(rows, cols, this);
-   // boardWidget->generateMockBoard();
+    boardWidget->generateMockBoard();
     boardWidget->setEnabled(true);
     vbox->addWidget(boardWidget, 1);
 
@@ -74,6 +74,8 @@ void MainWindow::onLeftCellClicked(int row, int col) {
         statusPanel->startTimer();
     }
     qDebug() << "Left cell is clicked" << row << col;
+
+
 }
 void MainWindow::onRightCellClicked(int row, int col) {
     if (!firstClick) {

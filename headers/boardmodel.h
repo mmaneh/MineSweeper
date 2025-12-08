@@ -3,6 +3,7 @@
 #include "cellmodel.h"
 #include <vector>
 #include <random>
+#include <queue>
 
 enum class GameState { NotStarted, Playing, Won, Lost };
 
@@ -20,8 +21,16 @@ public:
     int getCols() const{return m_cols;}
     int getMineCount() const{return m_mineCount;}
 
-
+    void floodFill(int i, int j);
+    void revealCell(int i, int j);
     bool isValidPosition(int row, int col) const;
+    bool toggleFlag(int row, int col);
+    int getRemainingMineCount() const;
+    bool isCellFlagged(int row, int col) const;
+    bool checkWinCondition();
+    bool checkLossCondition();
+    int getFlaggedCount() const;
+    void revealAllMines();
 
     GameState getGameState() const {return m_gameState;}
     void setGameState(GameState state);
@@ -29,6 +38,11 @@ public:
     bool isFirstClick() const { return !m_minesPlaced; }
     int getPlacedMineCount() const { return m_placedMineCount; }
     void adjMineCount();
+    void resetGame();
+    void newGame(int rows, int cols, int mineCount);
+
+    bool isGameOver() const;
+
 private:
     int m_rows = 0;
     int m_cols = 0;
@@ -40,6 +54,10 @@ private:
     bool m_minesPlaced = false;
     int m_placedMineCount = 0;
 
+    int flaggedCount = 0;
+    int revealedCount = 0;
+
+    bool revealedMine = false;
     std::vector<std::vector<CellModel>> m_grid;
     GameState m_gameState = GameState::NotStarted;
     std::random_device rd;
