@@ -91,18 +91,23 @@ void BoardModel::floodFill(int i, int j) {
         auto [r, c] = cells.front();
         cells.pop();
 
-        if (m_grid[r][c].isRevealed()) continue;
+        if (m_grid[r][c].isRevealed() || m_grid[r][c].isFlagged()) continue;
         m_grid[r][c].setRevealed(true);
         ++revealedCount;
-
-        if (m_grid[r][c].adjacentMines() > 0 ) continue;
 
         for (auto d : dir) {
             int x = d.first + r;
             int y = d.second + c;
-            if(isValidPosition(x,y) && !m_grid[x][y].isFlagged() && !m_grid[x][y].isRevealed() && !visited[x][y]) {
-                cells.push({x,y});
-                visited[x][y] = true;
+            if (!isValidPosition(x,y)) continue;
+            if(!m_grid[x][y].isFlagged() && !m_grid[x][y].isRevealed()) {
+                if (m_grid[x][y].adjacentMines() == 0 && !visited[x][y]) {
+                    cells.push({x,y});
+                    visited[x][y] = true;
+                }else if(m_grid[x][y].adjacentMines() > 0) {
+                    m_grid[x][y].setRevealed(true);
+                    ++revealedCount;
+                }
+
             }
         }
     }
@@ -130,13 +135,13 @@ void BoardModel::placeMines(int i, int j) {
 }
 
 void BoardModel::adjMineCount() {
-    int count = 0;
     for (int i = 0; i < m_rows; ++i) {
         for (int j = 0; j < m_cols; ++j) {
             if (m_grid[i][j].hasMine()) {
                 m_grid[i][j].setAdjacentMines(-1);
                 continue;
             }
+            int count = 0;
             for (auto d : dir) {
                 int x = d.first + i;
                 int y = d.second + j;

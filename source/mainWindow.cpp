@@ -60,7 +60,7 @@ void MainWindow::setupUi()
 
 
     boardWidget = new BoardWidget(rows, cols, this);
-    boardWidget->generateMockBoard();
+    //boardWidget->generateMockBoard();
     boardWidget->setEnabled(true);
     vbox->addWidget(boardWidget, 1);
 
