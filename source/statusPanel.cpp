@@ -33,9 +33,7 @@ StatusPanel::StatusPanel(QWidget *parent)
         "QPushButton { background: #5C4033; border: 1px solid #FFF8E1; border-radius: 8px; padding: 6px 16px; color: #FFF8E1; font-weight: bold; }"
         "QPushButton:hover { background: #3E2723; }" // Dark Chocolate Hover
         );
-    qtimer = new QTimer(this);
-    qtimer->setInterval(1000);
-    connect(qtimer, &QTimer::timeout, this, &StatusPanel::updateTime);
+
 
     connect(restartBtn, &QPushButton::clicked, this, &StatusPanel::restartClicked);
     connect(backBtn,    &QPushButton::clicked, this, &StatusPanel::backClicked);
@@ -81,36 +79,22 @@ void StatusPanel::setDifficultyLabel(const QString &text)
 
 void StatusPanel::setFaceState(GameState state)
 {
-    if (state == GameState::Playing) restartBtn->setText("🙂");
-    else if (state == GameState::Won)   restartBtn->setText("😎");
-    else restartBtn->setText("💀");
-}
-
-void StatusPanel::startTimer()
-{
-    elapsedSeconds = 0;
-    timer->setText("000");
-    qtimer->start();
-}
-
-void StatusPanel::stopTimer()
-{
-    qtimer->stop();
-}
-
-void StatusPanel::resetTimer()
-{
-    elapsedSeconds = 0;
-    timer->setText("000");
-}
-
-void StatusPanel::updateTime()
-{
-    elapsedSeconds++;
-    timer->setText(QString("%1").arg(elapsedSeconds, 3, 10, QChar('0')));
-
-    if (elapsedSeconds >= 999) {
-        timer->setText("999");
-        qtimer->stop();
+    if (state == GameState::NotStarted || state == GameState::Playing) {
+        restartBtn->setText("🙂");
+    }
+    else if (state == GameState::Won) {
+        restartBtn->setText("😎");
+    }
+    else if (state == GameState::Lost) {
+        restartBtn->setText("💀");
     }
 }
+void StatusPanel::setTime(int seconds)
+{
+    timer->setText(QString("%1").arg(seconds, 3, 10, QChar('0')));
+    if (seconds >= 999) {
+        timer->setText("999");
+    }
+}
+
+

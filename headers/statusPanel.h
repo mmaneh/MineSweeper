@@ -4,9 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QPushButton>
-#include <QTimer>
-
-enum class GameState { Playing, Won, Lost };
+#include "gamestate.h"
 
 class StatusPanel : public QWidget
 {
@@ -18,17 +16,12 @@ public:
     void setMineCount(int count);
     void setDifficultyLabel(const QString &text);
     void setFaceState(GameState state);
-
-    void startTimer();
-    void stopTimer();
-    void resetTimer();
+    void setTime(int seconds);
 
 signals:
     void restartClicked();
     void backClicked();
 
-private slots:
-    void updateTime();
 
 private:
     QLabel *mineCounter;
@@ -38,8 +31,6 @@ private:
     QPushButton *restartBtn;
     QPushButton *backBtn;
 
-    QTimer *qtimer;
-    int elapsedSeconds = 0;
 };
 
 #endif // STATUSPANEL_H

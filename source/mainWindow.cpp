@@ -64,26 +64,77 @@ void MainWindow::setupUi()
     boardWidget->setEnabled(true);
     vbox->addWidget(boardWidget, 1);
 
-    connect(boardWidget, &BoardWidget::onLeftClicked, this, &MainWindow::onLeftCellClicked);
-    connect(boardWidget, &BoardWidget::onRightClicked, this, &MainWindow::onRightCellClicked);
+    connect(boardWidget, &BoardWidget::requestCellUpdate, this, &MainWindow::updateCellFromModel);
+
+    controller = new GameController(rows, cols, mines, this);
+
+    connect(controller, &GameController::mineCounterUpdated,
+            statusPanel, &StatusPanel::setMineCount);
+
+    connect(controller, &GameController::gameStateChanged,
+            statusPanel, &StatusPanel::setFaceState);
+
+    connect(controller, &GameController::timerUpdated,
+            statusPanel, &StatusPanel::setTime);
+
+    connect(controller, &GameController::boardUpdated,
+            boardWidget, [this]() {
+                for (int r = 0; r < rows; ++r) {
+                    for (int c = 0; c < cols; ++c) {
+                        updateCellFromModel(r, c);
+                    }
+                }
+            });
+
+    connect(controller, &GameController::cellUpdated,
+            this, &MainWindow::updateCellFromModel);
+
+    connect(controller, &GameController::gameWon,
+            this, [](){ qDebug() << "Game Won!"; });
+
+    connect(controller, &GameController::gameLost,
+            this, [](){ qDebug() << "Game Lost!"; });
+
+    connect(boardWidget, &BoardWidget::onLeftClicked,
+            controller, &GameController::handleCellLeftClick);
+
+    connect(boardWidget, &BoardWidget::onRightClicked,
+            controller, &GameController::handleCellRightClick);
+
+    connect(boardWidget, &BoardWidget::requestCellUpdate,
+            this, &MainWindow::updateCellFromModel);
+
+
 }
 
-void MainWindow::onLeftCellClicked(int row, int col) {
-    if (!firstClick) {
-        firstClick = true;
-        statusPanel->startTimer();
-    }
-    qDebug() << "Left cell is clicked" << row << col;
+void MainWindow::updateCellFromModel(int row, int col)
+{
+    const CellModel& cell = controller->getCellState(row, col);
 
-
-}
-void MainWindow::onRightCellClicked(int row, int col) {
-    if (!firstClick) {
-        firstClick = true;
-        statusPanel->startTimer();
+    if (controller->getGameState() == GameState::Lost &&
+        cell.isFlagged() && !cell.hasMine()) {
+        boardWidget->setCellState(row, col, CellState::RevealedWrongFlag);
+        return;
     }
 
-    qDebug() << "Right cell is clicked" << row << col;
+    if (!cell.isRevealed()) {
+        if (cell.isFlagged())
+            boardWidget->setCellState(row, col, CellState::Flagged);
+        else
+            boardWidget->setCellState(row, col, CellState::Covered);
+        return;
+    }
+
+    if (cell.hasMine()) {
+        boardWidget->setCellState(row, col, CellState::RevealedMine);
+        return;
+    }
+
+    int n = cell.adjacentMines();
+    if (n == 0)
+        boardWidget->setCellState(row, col, CellState::RevealedEmpty);
+    else
+        boardWidget->setCellState(row, col, CellState::RevealedNumber, n);
 }
 
 void MainWindow::setupGame(int rows, int cols, int mines) {
@@ -94,11 +145,8 @@ void MainWindow::setupGame(int rows, int cols, int mines) {
 void MainWindow::onRestartClicked()
 {
     qDebug() << "Restart clicked";
-    statusPanel->resetTimer();
-    statusPanel->stopTimer();
-    statusPanel->setFaceState(GameState::Playing);
-    statusPanel->setMineCount(mines);
-    firstClick = false;
+    if (controller)
+        controller->handleRestart();
 
 }
 
@@ -111,8 +159,6 @@ void MainWindow::onBackClicked()
 void MainWindow::onNewGame()
 {
     onRestartClicked();
-    firstClick = false;
-
     qDebug() << "New Game triggered";
 }
 
@@ -146,11 +192,14 @@ void MainWindow::onChangeDifficulty()
         boardWidget->setEnabled(true);
         vbox->addWidget(boardWidget, 1);
 
-        connect(boardWidget, &BoardWidget::onLeftClicked, this, &MainWindow::onLeftCellClicked);
-        connect(boardWidget, &BoardWidget::onRightClicked, this, &MainWindow::onRightCellClicked);
+        connect(boardWidget, &BoardWidget::onLeftClicked,
+                controller, &GameController::handleCellLeftClick);
+        connect(boardWidget, &BoardWidget::onRightClicked,
+                controller, &GameController::handleCellRightClick);
+        connect(boardWidget, &BoardWidget::requestCellUpdate,
+                this, &MainWindow::updateCellFromModel);
 
-        onRestartClicked();
-        firstClick = false;
+        controller->handleDifficultyChange(rows, cols, mines);
 
         qDebug() << "Change Difficulty triggered";
     }

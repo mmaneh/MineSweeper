@@ -12,12 +12,17 @@ public:
     BoardWidget(int rows, int cols, QWidget *parent = nullptr);
     void setCellState(int row, int col, CellState state, int number = 0);
     void generateMockBoard();
+
 private slots:
     void handleLeftClick(int row, int col);
     void handleRightClick(int row, int col);
+public slots:
+    void refreshBoard();
+    void updateCell(int row, int col);
 signals:
    void onRightClicked(int row, int col);
    void onLeftClicked(int row, int col);
+   void requestCellUpdate(int row, int col);
 
 private:
     int m_rows;

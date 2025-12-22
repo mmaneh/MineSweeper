@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 #include <QMainWindow>
 #include "boardwidget.h"
+#include "gamecontroller.h"
 #include <statuspanel.h>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -25,11 +26,10 @@ private:
 private slots:
     void onRestartClicked();
     void onBackClicked();
-    void onLeftCellClicked(int row, int col);
-    void onRightCellClicked(int row, int col);
     void onNewGame();
     void onChangeDifficulty();
     void onExitGame();
+    void updateCellFromModel(int row, int col);
 
 signals:
     void backRequested();
@@ -42,7 +42,8 @@ private:
     StatusPanel *statusPanel;
     QWidget *gameBoardPlaceholder;
     BoardWidget *boardWidget;
-    bool firstClick = false;
+    GameController *controller;
+
 };
 
 

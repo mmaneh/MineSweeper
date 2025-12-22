@@ -1,6 +1,8 @@
 #include "boardmodel.h"
 
-BoardModel::BoardModel() : m_gameState(GameState::NotStarted) {}
+BoardModel::BoardModel() : m_gameState(GameState::NotStarted) {
+    gen.seed(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+}
 
 void BoardModel::initializeBoard(int rows, int cols, int mineCount) {
     if (rows <= 0 || cols <= 0)
@@ -62,31 +64,36 @@ bool BoardModel::isCellFlagged(int row, int col) const {
 
 void BoardModel::revealCell(int i, int j) {
     if (!isValidPosition(i,j)) return;
-     if (isGameOver()) return;
-        CellModel& c = m_grid[i][j];
+    if (isGameOver()) return;
 
-        if (c.isFlagged() || c.isRevealed()) return;
+    CellModel& c = m_grid[i][j];
+    if (c.isFlagged() || c.isRevealed()) return;
+
+    if (m_gameState == GameState::NotStarted) {
+        placeMines(i, j);
+        m_gameState = GameState::Playing;
+    }
+
+    if (c.hasMine()) {
         c.setRevealed(true);
         ++revealedCount;
-        if (c.hasMine()) {
-            m_gameState = GameState::Lost,
-            revealedMine = true;
-            revealAllMines();
-            return;
-        }
-        if (c.adjacentMines() > 0){
-            if (checkWinCondition()) m_gameState = GameState::Won;
-            return;
-        }
-        floodFill(i,j);
-        if (checkWinCondition()) m_gameState = GameState::Won;
+        m_gameState = GameState::Lost,
+        revealedMine = true;
+        revealAllMines();
+        return;
+    }
+
+    floodFill(i,j);
+    if (checkWinCondition()) m_gameState = GameState::Won;
 }
 
 void BoardModel::floodFill(int i, int j) {
     std::queue<std::pair<int, int>> cells;
-    std::vector<std::vector<bool>> visited(m_rows, std::vector<bool>(m_cols,false));
+    std::vector<std::vector<char>> visited(m_rows, std::vector<char>(m_cols, 0));
+
     cells.push({i,j});
-    visited[i][j] = true;
+    visited[i][j] = 1;
+
     while(!cells.empty()) {
         auto [r, c] = cells.front();
         cells.pop();
@@ -95,22 +102,20 @@ void BoardModel::floodFill(int i, int j) {
         m_grid[r][c].setRevealed(true);
         ++revealedCount;
 
+        if (m_grid[r][c].adjacentMines() > 0) {
+            continue;
+        }
         for (auto d : dir) {
             int x = d.first + r;
             int y = d.second + c;
-            if (!isValidPosition(x,y)) continue;
-            if(!m_grid[x][y].isFlagged() && !m_grid[x][y].isRevealed()) {
-                if (m_grid[x][y].adjacentMines() == 0 && !visited[x][y]) {
-                    cells.push({x,y});
-                    visited[x][y] = true;
-                }else if(m_grid[x][y].adjacentMines() > 0) {
-                    m_grid[x][y].setRevealed(true);
-                    ++revealedCount;
-                }
+            if (!isValidPosition(x, y)) continue;
+            if (visited[x][y]) continue;
 
+            visited[x][y] = 1;
+            cells.push({x, y});
             }
         }
-    }
+
 }
 
 void BoardModel::placeMines(int i, int j) {

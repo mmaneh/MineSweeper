@@ -4,8 +4,7 @@
 #include <vector>
 #include <random>
 #include <queue>
-
-enum class GameState { NotStarted, Playing, Won, Lost };
+#include "gamestate.h"
 
 class BoardModel {
 public:

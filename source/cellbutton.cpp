@@ -13,6 +13,7 @@ void CellButton::setState(CellState state, int number) {
 void CellButton::updateAppearance() {
 
     if (m_state == CellState::Covered) {
+        setText("");
         setStyleSheet(
             "background-color: #E0C3A0;"
             "border: 2px solid #C0A080;"
@@ -26,6 +27,7 @@ void CellButton::updateAppearance() {
             );
         setText("🚩");
     }else if (m_state == CellState::RevealedEmpty) {
+        setText("");
         setStyleSheet(
             "background-color: #F5F5DC;"
             "border: 1px solid #C0A080;"

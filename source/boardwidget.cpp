@@ -23,6 +23,22 @@ BoardWidget::BoardWidget(int rows, int cols, QWidget *parent) :
     setLayout(layout);
 }
 
+void BoardWidget::refreshBoard()
+{
+    qDebug() << "[BoardWidget] Refresh board";
+
+    for (int i = 0; i < m_rows; ++i) {
+        for (int j = 0; j < m_cols; ++j) {
+            emit requestCellUpdate(i, j);
+        }
+    }
+}
+
+void BoardWidget::updateCell(int row, int col)
+{
+    emit requestCellUpdate(row, col);
+}
+
 void BoardWidget::handleLeftClick(int row, int col) {
     qDebug() << "Left click at " << row << col;
     emit onLeftClicked(row, col);
